@@ -30,9 +30,12 @@ export const UserProvider = ({ children }) => {
     }
   };
 
+  // useEffect(() => {
+  //   fetchUser(); // runs on route change
+  // }, [location.pathname]);
   useEffect(() => {
     fetchUser(); // runs on route change
-  }, [location.pathname]);
+  }, []);
 
   return (
     <UserContext.Provider value={{ user, setUser, loading }}>
