@@ -2,12 +2,15 @@ import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 import { BASE_URL } from './utils/constants'
 import { useUser } from './contexts/UserContext';
+import { useEffect } from 'react';
 
 const NavBar = () => {
   const { user, setUser } = useUser();
   const navigate = useNavigate();
 
-
+  // useEffect(() => {
+  //   console.log("User in NavBar:", user);
+  // }, [user]);
   const handelLogout = async () => {
     await axios.get(BASE_URL + "logout", {withCredentials: true}).then(()=>{
     setUser(null);
@@ -23,6 +26,7 @@ const NavBar = () => {
           {/* <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" /> */}
           {user && (
             <div className="dropdown dropdown-end">
+              <div>Welcome, {user.firstName}</div>
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                 <div className="w-10 rounded-full">
                   <img

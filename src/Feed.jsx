@@ -10,8 +10,8 @@ const Feed = () => {
   const [feed, setFeed] = useState([]);
   const userFeed = async () => {
     try {
-      const res = await axios.get(BASE_URL + "user/feed",{ withCredentials: true });
-      setFeed(res.data.data[0]);
+      await axios.get(BASE_URL + "user/feed",{ withCredentials: true }).then((res)=> setFeed(res.data.data[0]));
+      
       // console.log(res.data.data[0]);
 
     } catch (error) {
@@ -23,7 +23,9 @@ const Feed = () => {
   }, []);
   return (
     <div className='flex justify-center my-8'>
-      <FeedCard data={feed} />
+      { feed && (
+          <FeedCard data={feed} />
+      )}
     </div>
   )
 }
