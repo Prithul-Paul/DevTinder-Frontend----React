@@ -26,7 +26,7 @@ const NavBar = () => {
           {/* <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" /> */}
           {user && (
             <div className="dropdown dropdown-end">
-              <div>Welcome, {user.firstName}</div>
+              {/* <div>Welcome, {user.firstName}</div> */}
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                 <div className="w-10 rounded-full">
                   <img
@@ -43,7 +43,7 @@ const NavBar = () => {
                     {/* <span className="badge">New</span> */}
                   </Link>
                 </li>
-                <li><a>Settings</a></li>
+                <li><Link to="/connections">Connections</Link></li>
                 <li><a onClick={handelLogout}>Logout</a></li>
               </ul>
             </div>

@@ -8,6 +8,7 @@ import Profile from './Profile'
 // import { store } from './utils/appStore'
 import Feed from './Feed'
 import { UserProvider } from './contexts/UserContext'
+import Connections from './Connections'
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
                     <Route path="/" element={<Feed/>}/>
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/profile" element={<Profile/>}/>
+                    <Route path="/connections" element={<Connections/>}/>
                   </Route>
                   {/* <Route path="/login" element={<div>Login Page</div>} /> */}
                 </Routes>
