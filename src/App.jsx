@@ -9,6 +9,7 @@ import Profile from './Profile'
 import Feed from './Feed'
 import { UserProvider } from './contexts/UserContext'
 import Connections from './Connections'
+import Requests from './Requests'
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/profile" element={<Profile/>}/>
                     <Route path="/connections" element={<Connections/>}/>
+                    <Route path="/requests" element={<Requests/>}/>
                   </Route>
                   {/* <Route path="/login" element={<div>Login Page</div>} /> */}
                 </Routes>

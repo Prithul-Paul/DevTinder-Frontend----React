@@ -4,23 +4,26 @@ import { BASE_URL } from './utils/constants';
 
 const Connections = () => {
     const [connections, setConnections] = useState([]);
-    const fetchConnections = async () => {
-        await axios.get(BASE_URL + "user/connection", {
-            withCredentials: true,
-        }).then(res => {
-            setConnections(res.data.data);
-            console.log("Then: ",res.data.data);
-            
-        });
-    }
+   
     useEffect(() => {
-        fetchConnections(); // runs on route change
-        console.log("Useeffect: ",connections);
+        const fetchConnections = async () => {
+            await axios.get(BASE_URL + "user/connection", {
+                    withCredentials: true,
+            }).then(res => {
+                setConnections(res.data.data);
+                // return  res.data.data;
+                // console.log("Then: ",res.data.data);
+            });
+        }
+        fetchConnections();
+        // setConnections(fetchedConnections);
+         // runs on route change
+        // console.log("Useeffect: ",fetchedConnections);
         // console.log(connections);
     }, []);
-    useEffect(() => {
-        console.log("Connections updated:", connections);
-    }, [connections]);
+    // useEffect(() => {
+    //     console.log("Connections updated:", connections);
+    // }, [connections]);
   return (
     <div className="max-w-md mx-auto p-4">
         <h2 className="text-xl font-bold mb-4">Your Friends </h2>
