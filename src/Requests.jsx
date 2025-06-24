@@ -39,13 +39,19 @@ const Requests = () => {
     <div className="max-w-md mx-auto p-4">
         <h2 className="text-xl font-bold mb-4">Connection Requests </h2>
         <div className="space-y-4">
-            { requests.map(con =>(
+            {console.log(requests)}
+            {requests?.length === 0 && (
+                <div className="text-center text-gray-500">
+                No New Requests are here.
+                </div>
+            )}
+            { requests?.length > 0 && requests.map(con =>(
                 <div
                     className="w-[500px] flex items-center justify-between bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-sm"
                 >
                     <div className="flex items-center space-x-4">
                         <img
-                            src={con.formUserId.photoURL}
+                            src={BASE_URL + con.formUserId.photoURL}
                             alt=""
                             className="w-12 h-12 rounded-full object-cover"
                         />

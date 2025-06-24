@@ -9,12 +9,13 @@ const Profile = () => {
   const { user, setUser } = useUser();
 
   const [previewImage, setPreviewImage] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
   const [firstName, setfirstName] = useState('');
   const [lastName, setlastName] = useState('');
   const [gender, setGender] = useState('other');
   const [about, setBio] = useState('');
   const [skills, setSkills] = useState([]);
-  const [imageUrl, setImgUrl] = useState("https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png");
+  const [imageUrl, setImgUrl] = useState("");
   const [status, setStatus] = useState(false);
 
   // const [skills, setBio] = useState('');
@@ -37,6 +38,7 @@ const Profile = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      setImageFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreviewImage(reader.result);
@@ -52,24 +54,50 @@ const Profile = () => {
 
   const handelProfileUpdate = async ()=>{
     try{
-      const res = await axios.patch(BASE_URL + "profile/edit", {
-        firstName,
-        lastName,
-        gender,
-        about,
-        skills
-      }, 
-      {withCredentials: true,}).then(res => {
-        // console.log(res.data); 
-        setUser(res.data.data);
-        if(res.data.status === "success"){
-          setStatus(true);
-          setTimeout(() => {
-            setStatus(false);
-          }, 2000);
-        }
+      // const res = await axios.patch(BASE_URL + "profile/edit", {
+      //   firstName,
+      //   lastName,
+      //   gender,
+      //   about,
+      //   skills
+      // }, 
+      // {withCredentials: true,}).then(res => {
+      //   // console.log(res.data); 
+      //   setUser(res.data.data);
+      //   if(res.data.status === "success"){
+      //     setStatus(true);
+      //     setTimeout(() => {
+      //       setStatus(false);
+      //     }, 2000);
+      //   }
+      // });
+      const formData = new FormData();
+      formData.append("firstName", firstName);
+      formData.append("lastName", lastName);
+      formData.append("gender", gender);
+      formData.append("about", about);
+      // formData.append("skills", skills);
+      skills.forEach((skill) => {
+        formData.append('skills[]', skill);  // Use `skills[]` as key
       });
       
+      if (previewImage) {
+        formData.append("profileImage", imageFile);// Must match backend field name
+      }
+
+      const res = await axios.patch(BASE_URL + "profile/edit", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        withCredentials: true,
+      });
+
+      setUser(res.data.data);
+
+      if (res.data.status === "success") {
+        setStatus(true);
+        setTimeout(() => setStatus(false), 2000);
+      }
 
     }catch(err){
       console.log("Error: " + err);
@@ -84,13 +112,14 @@ const Profile = () => {
         <div className="card bg-neutral text-primary-content w-full max-w-3xl shadow-lg my-4">
           <div className="card-body pb-0">
             <h2 className="card-title justify-center text-2xl mb-4">Personal Information</h2>
-
+            {/* <form encType="multipart/form-data"> */}
             <div className="flex justify-center mb-4 relative group">
               <label htmlFor="profileImage" className="cursor-pointer">
                 <div className="w-32 h-32 rounded-full overflow-hidden border-2 border-gray-400">
                   <img
-                    src={previewImage || imageUrl}
+                    src={previewImage || BASE_URL+imageUrl}
                     alt="Profile"
+                    name="profileImage"
                     className="object-cover w-full h-full"
                   />
                 </div>
@@ -207,6 +236,7 @@ const Profile = () => {
             <div className="card-actions mt-2 mb-6 justify-center">
               <button className="btn btn-info px-6" onClick={handelProfileUpdate}>Save Profile Info. </button>
             </div>
+            {/* </form> */}
           </div>
         </div>
       </div>

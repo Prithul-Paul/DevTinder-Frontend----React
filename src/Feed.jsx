@@ -56,8 +56,15 @@ const Feed = () => {
 
 
   return (
+    
     <div className='flex justify-center my-8'>
-      { feed && (
+      {feed?.length === 0 && (
+        <div className="text-center text-gray-500">
+          No feed available.
+        </div>
+      )}
+
+      { feed?.length > 0 && firstUser && (
           // <FeedCard data={firstUser} />
           
           <div className="card bg-base-300 w-90 shadow-sm">

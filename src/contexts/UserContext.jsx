@@ -21,6 +21,7 @@ export const UserProvider = ({ children }) => {
     } catch (err) {
       setUser(null);
       if (err.response?.status === 401) {
+          
           navigate('/login');
       } else {
         console.error("ERROR:", err);

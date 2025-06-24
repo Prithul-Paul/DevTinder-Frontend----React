@@ -10,32 +10,25 @@ import Feed from './Feed'
 import { UserProvider } from './contexts/UserContext'
 import Connections from './Connections'
 import Requests from './Requests'
-
+import Signup from './Signup'
 
 function App() {
-
-  return (
-    <>
-      {/* <Provider store={store}> */}
-        <BrowserRouter basename='/'>
-          <UserProvider>
-                <Routes>
-                  <Route path='/' element={<Body/>} >
-                    <Route path="/" element={<Feed/>}/>
-                    <Route path="/login" element={<Login/>}/>
-                    <Route path="/profile" element={<Profile/>}/>
-                    <Route path="/connections" element={<Connections/>}/>
-                    <Route path="/requests" element={<Requests/>}/>
-                  </Route>
-                  {/* <Route path="/login" element={<div>Login Page</div>} /> */}
-                </Routes>
-          </UserProvider>
-        </BrowserRouter>
-      {/* </Provider> */}
-      {/* <NavBar/> */}
-      {/* <h1 className="text-3xl font-bold">Hello World!!</h1> */}
-    </>
-  )
+    return (
+      <BrowserRouter basename='/'>
+        <UserProvider>
+              <Routes>
+                <Route path='/' element={<Body/>} >
+                  <Route path="/" element={<Feed/>}/>
+                  <Route path="/login" element={<Login/>}/>
+                  <Route path="/profile" element={<Profile/>}/>
+                  <Route path="/connections" element={<Connections/>}/>
+                  <Route path="/requests" element={<Requests/>}/>
+                </Route>
+                {/* <Route path="/login" element={<div>Login Page</div>} /> */}
+              </Routes>
+        </UserProvider>
+      </BrowserRouter>
+    );
 }
 
 export default App

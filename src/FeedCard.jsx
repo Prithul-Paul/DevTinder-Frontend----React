@@ -1,4 +1,5 @@
 import React from 'react'
+import { BASE_URL } from './utils/constants';
 
 const FeedCard = ({ data }) => {
     // console.log(data);
@@ -15,7 +16,7 @@ const FeedCard = ({ data }) => {
     <div className="card bg-base-300 w-90 shadow-sm">
         <figure>
           <img
-            src={data.photoURL}
+            src={BASE_URL + data.photoURL}
             alt="Shoes" />
         </figure>
         <div className="card-body">
