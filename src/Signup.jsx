@@ -6,8 +6,7 @@ import axios from 'axios';
 import Footer from './Footer';
 
 const Signup = () => {
-    const [selectedDate, setSelectedDate] = useState('');
-    const today = new Date().toISOString().split('T')[0];
+    const dateRef = useRef(null);
 
     const [firstName, setFirstname] = useState("");
     const [lastName, setLastname] = useState("");
@@ -17,7 +16,12 @@ const Signup = () => {
     const [error, setError] = useState("");
 
     // const { setUser } = useUser();
-
+    useEffect(() => {
+        const today = new Date().toISOString().split('T')[0];
+        if (dateRef.current) {
+            dateRef.current.max = today;
+        }
+    }, []);
 
     const handelSignup = async () => {
         try{
@@ -57,10 +61,10 @@ const Signup = () => {
                 <legend className="fieldset-legend">Last Name</legend>
                 <input type="text" value={lastName} className="input" placeholder="Type Last Name" onChange={(e)=>setLastname(e.target.value)} />
             </fieldset>
-            {/* <fieldset className="fieldset">
-                <legend className="fieldset-legend">Age</legend>
-                <input type="text" value={age} className="input" placeholder="Type age" onChange={(e)=>setAge(e.target.value)} />
-            </fieldset> */}
+            <fieldset className="fieldset">
+                <legend className="fieldset-legend">Date of Birth</legend>
+                <input type="date" ref={dateRef} id="dob" className="input"/>
+            </fieldset>
             <fieldset className="fieldset">
                 <legend className="fieldset-legend">Email ID</legend>
                 <input type="text" value={emailId} className="input" placeholder="Type Email ID" onChange={(e)=>setEmailId(e.target.value)} />

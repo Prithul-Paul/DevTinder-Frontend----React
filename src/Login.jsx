@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 // import { useDispatch } from 'react-redux';
 // import { addUser } from './utils/userSlice';
 import { Link, useNavigate } from 'react-router-dom';
@@ -12,13 +12,23 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [firstName, setFirstname] = useState("");
   const [lastName, setLastname] = useState("");
+  const [dob, setDob] = useState(''); 
   const [error, setError] = useState("");
-
+  const dateRef = useRef(null);
   const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   // const dispatch = useDispatch();
   const { setUser } = useUser();
   const navigate = useNavigate();
+
+  if(setIsLoggedIn === false){
+    useEffect(() => {
+        const today = new Date().toISOString().split('T')[0];
+        if (dateRef.current) {
+            dateRef.current.max = today;
+        }
+    }, []);
+  }
 
   const handelLogin = async () => {
     try{
@@ -50,6 +60,7 @@ const Login = () => {
           const res = await axios.post(BASE_URL + "signup", {
               firstName,
               lastName,
+              dob,
               emailId,
               password
           },
@@ -82,6 +93,10 @@ const Login = () => {
               <fieldset className="fieldset">
                   <legend className="fieldset-legend">Last Name</legend>
                   <input type="text" value={lastName} className="input" placeholder="Type Last Name" onChange={(e)=>setLastname(e.target.value)} />
+              </fieldset>
+              <fieldset className="fieldset">
+                <legend className="fieldset-legend">Date of Birth</legend>
+                <input type="date" value={dob} ref={dateRef} id="dob" className="input" onChange={(e)=>setDob(e.target.value)} />
               </fieldset>
             </>
           }
