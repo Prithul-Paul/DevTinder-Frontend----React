@@ -1,5 +1,6 @@
 import axios from 'axios';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 // import { useDispatch } from 'react-redux';
 // import { addUser } from './utils/userSlice';
 import { Link, useNavigate } from 'react-router-dom';
@@ -106,7 +107,10 @@ const Login = () => {
           </fieldset>
           <fieldset className="fieldset">
             <legend className="fieldset-legend">Password</legend>
-            <input type="text" value={password} className="input" placeholder="Type Password" onChange={(e)=>setPassword(e.target.value)} />
+            <div style={{ position: 'relative' }}>
+              <input type="password" value={password} className="input" placeholder="Type Password" onChange={(e)=>setPassword(e.target.value)} />
+
+            </div>
           </fieldset>
           <p className='text-amber-600 flex justify-center'>{error}</p>
           <div className="card-actions flex justify-center ">
@@ -115,6 +119,7 @@ const Login = () => {
 
           {!isLoggedIn ? <><p className='flex justify-center'>Already have an account? Please <Link onClick={()=>setIsLoggedIn((value)=> !value)}> Login</Link></p></> : <>
           <p className='flex justify-center'>Didn't have an account? Please <Link onClick={()=>setIsLoggedIn((value)=> !value)} > Signin</Link></p></>}
+          <p className='flex justify-center'>Forgot password? <Link to="/forget-password" >Click Here</Link></p>
         </div>
       </div>
     </div>

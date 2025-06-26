@@ -71,7 +71,7 @@ const Feed = () => {
             
               <figure>
                 <img
-                  src={firstUser.photoURL}
+                  src={BASE_URL + firstUser.photoURL}
                   alt="Shoes" />
               </figure>
               <div className="card-body">
