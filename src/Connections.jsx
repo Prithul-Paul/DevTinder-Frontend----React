@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { BASE_URL } from './utils/constants';
+import { Link } from 'react-router-dom';
 
 const Connections = () => {
     const [connections, setConnections] = useState([]);
@@ -34,7 +35,7 @@ const Connections = () => {
                 </div>
             )}
             { connections?.length > 0 && connections.map(con =>(
-                <div
+                <div key={con._id}
                     className="flex items-center justify-between bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-sm"
                 >
                     <div className="flex items-center space-x-4">
@@ -48,9 +49,9 @@ const Connections = () => {
                             <p className="text-sm text-gray-500 dark:text-gray-400">Online</p>
                         </div>
                     </div>
-                    <button className="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-sm text-gray-800 dark:text-white rounded-xl hover:bg-gray-300 dark:hover:bg-gray-600">
+                    <Link to={"/message/"+ con._id} className="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-sm text-gray-800 dark:text-white rounded-xl hover:bg-gray-300 dark:hover:bg-gray-600">
                     Message
-                    </button>
+                    </Link>
                 </div>
             ))}
             

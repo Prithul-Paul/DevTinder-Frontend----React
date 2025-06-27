@@ -12,6 +12,7 @@ import Connections from './Connections'
 import Requests from './Requests'
 import Signup from './Signup'
 import ForgetPassword from './ForgetPassword'
+import Chat from './Chat'
 
 function App() {
     return (
@@ -25,6 +26,7 @@ function App() {
                 <Route path="/profile" element={<Profile/>}/>
                 <Route path="/connections" element={<Connections/>}/>
                 <Route path="/requests" element={<Requests/>}/>
+                <Route path="/message/:targetUserId" element={<Chat/>}/>
               </Route>
               {/* <Route path="/login" element={<div>Login Page</div>} /> */}
             </Routes>
