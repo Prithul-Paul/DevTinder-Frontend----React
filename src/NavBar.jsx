@@ -20,7 +20,7 @@ const NavBar = () => {
   return (
     <div className="navbar bg-base-100 shadow-sm">
         <div className="flex-1">
-          <p className="btn btn-ghost text-xl">DevTinder</p>
+          <p className="btn btn-ghost text-xl">TalkNest</p>
         </div>
         <div className="flex gap-2">
           {/* <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" /> */}
