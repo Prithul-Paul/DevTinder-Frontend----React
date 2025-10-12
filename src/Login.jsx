@@ -10,12 +10,14 @@ import { useUser } from './contexts/UserContext';
 
 const Login = () => {
   const [emailId, setEmailId] = useState("");
-  const [password, setPassword] = useState("");
+  const [otp, setOtp] = useState("");
   const [firstName, setFirstname] = useState("");
   const [lastName, setLastname] = useState("");
   const [dob, setDob] = useState(''); 
   const [error, setError] = useState("");
   const dateRef = useRef(null);
+
+  const [isOtpSent, setIsOtpSent] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   // const dispatch = useDispatch();
@@ -35,7 +37,7 @@ const Login = () => {
     try{
       await axios.post(BASE_URL + "login", {
         emailId,
-        password
+        otp
       },
       {withCredentials: true});
 
@@ -79,6 +81,26 @@ const Login = () => {
           }
       }
   }
+
+  const handelOtp = async () => {
+      try{
+        const res = await axios.post(BASE_URL + "emailLoginotp",{emailId}, {withCredentials: true});
+        setIsOtpSent(res.data.sucess);
+        setIsLoggedIn(true);
+        // setError(res.data.error);
+        if(!res.data.sucess){
+          setError(res.data.error);
+        }else{
+          setError(res.data.msg);
+        }
+      }catch(err){
+          console.log(err.message);
+          if (err.response?.status === 401) {
+            const apiMessage = err.response.data?.error || "Something went worng!!!"; // 👈 read message from API
+            setError(apiMessage);
+          }
+      }
+  }
     
   return (
     <div className='flex justify-center my-10'>
@@ -101,24 +123,75 @@ const Login = () => {
               </fieldset>
             </>
           }
+
           <fieldset className="fieldset">
             <legend className="fieldset-legend">Email ID</legend>
             <input type="text" value={emailId} className="input" placeholder="Type Email ID" onChange={(e)=>setEmailId(e.target.value)} />
           </fieldset>
-          <fieldset className="fieldset">
-            <legend className="fieldset-legend">Password</legend>
-            <div style={{ position: 'relative' }}>
-              <input type="password" value={password} className="input" placeholder="Type Password" onChange={(e)=>setPassword(e.target.value)} />
 
+          {!isOtpSent &&
+            <>
+            <div className="card-actions flex justify-center ">
+              <button className="btn btn-lg btn-info" onClick={handelOtp}>Send OTP</button>
             </div>
-          </fieldset>
-          <p className='text-amber-600 flex justify-center'>{error}</p>
-          <div className="card-actions flex justify-center ">
-            {!isLoggedIn ? <><button className="btn btn-lg btn-info" onClick={handelSignup}>Signup</button></> : <><button className="btn btn-lg btn-info" onClick={handelLogin}>Login</button></>}
-          </div>
+            </>
+          }
 
-          {!isLoggedIn ? <><p className='flex justify-center'>Already have an account? Please <Link onClick={()=>setIsLoggedIn((value)=> !value)}> Login</Link></p></> : <>
-          <p className='flex justify-center'>Didn't have an account? Please <Link onClick={()=>setIsLoggedIn((value)=> !value)} > Signin</Link></p></>}
+
+          {isOtpSent && isLoggedIn && (
+              <>
+                <fieldset className="fieldset">
+                  <legend className="fieldset-legend">OTP</legend>
+                  <div style={{ position: 'relative' }}>
+                    <input type="text" value={otp} className="input" placeholder="Enter OTP" onChange={(e)=>{
+                      if (/^\d{0,5}$/.test(e.target.value)) {
+                        setOtp(e.target.value)
+                      }
+                    }} />
+                  </div>
+                </fieldset>
+                <div className="card-actions flex justify-center ">
+                  <button className="btn btn-lg btn-info" onClick={handelLogin}>Login</button>
+                </div>
+              </>
+          )
+          }
+
+          {!isLoggedIn &&
+            <div className="card-actions flex justify-center ">
+                <><button className="btn btn-lg btn-info" onClick={handelSignup}>Signup</button></> 
+            </div>
+          }
+          <p className='text-amber-600 flex justify-center'>{error}</p>
+
+
+
+
+          {!isLoggedIn ? 
+            <>
+              <p className='flex justify-center'>
+                Already have an account? Please <Link onClick={
+                  ()=>{
+                    
+                    setIsLoggedIn((value)=> !value)
+                    setIsOtpSent(false);
+
+                  }
+                  
+                }> Login</Link>
+              </p>
+            </> : 
+            <>
+              <p className='flex justify-center'>
+                Didn't have an account? Please <Link onClick={
+                  ()=>{
+                    setIsLoggedIn((value)=> !value)
+                    setIsOtpSent(true);
+                  }
+                } > Signin</Link>
+              </p>
+            </>
+          }
           <p className='flex justify-center'>Forgot password? <Link to="/forget-password" >Click Here</Link></p>
         </div>
       </div>
