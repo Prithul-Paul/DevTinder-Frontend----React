@@ -194,6 +194,23 @@ const Login = () => {
           }
           <p className='flex justify-center'>Forgot password? <Link to="/forget-password" >Click Here</Link></p>
         </div>
+        {/* <Link to={BASE_URL + "auth/google"}>Log in with google</Link> */}
+<div className="flex items-center my-4">
+  <div className="flex-grow border-t border-gray-400"></div>
+  <span className="mx-3 text-gray-400">or</span>
+  <div className="flex-grow border-t border-gray-400"></div>
+</div>
+        <button
+  onClick={() => (window.location.href = "http://localhost:5000/auth/google")}
+  className="flex items-center justify-center gap-2 w-[90%] mx-auto mt-4 mb-6 px-4 py-2 border border-gray-300 rounded-lg shadow-sm hover:bg-gray-100 transition bg-white"
+>
+  <img
+    src="https://developers.google.com/identity/images/g-logo.png"
+    alt="Google Logo"
+    className="w-5 h-5"
+  />
+  <span className="text-gray-700 font-medium">Continue with Google</span>
+</button>
       </div>
     </div>
   )
