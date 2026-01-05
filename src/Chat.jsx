@@ -47,6 +47,8 @@ const Chat = () => {
     }
 
     useEffect(() => {
+        console.log(user);
+        
         console.log(currentUserName);
         console.log(targetUserId);
         fetchChatList();
@@ -65,7 +67,7 @@ const Chat = () => {
         return ()=>{
             socket.disconnect();
         };
-    }, [targetUserId]);
+    }, [user, targetUserId]);
 
 
 
