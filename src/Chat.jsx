@@ -4,6 +4,7 @@ import { useUser } from './contexts/UserContext';
 import { createSocketConnection } from './utils/socket';
 import axios from 'axios';
 import { BASE_URL } from './utils/constants';
+import Chathistory from './Chathistory';
 
 // const crypto = require("crypto");
 
@@ -52,8 +53,10 @@ const Chat = () => {
         console.log(currentUserName);
         console.log(targetUserId);
         fetchChatList();
+        
         const socket = createSocketConnection();
         // console.log(getUniqueRoomId());
+
         socket.emit("joinChat", {currentUserName, currentUserId, targetUserId});
         getSavedChat();
         socket.on("messageRecieved", ({currentUserId, currentUserName, newMessage})=>{ 
@@ -110,24 +113,10 @@ const Chat = () => {
                     {targetUserDetails?.firstName}
                     </div>
 
-                    {/* Chat History */}
-                    <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-900">
-                    {message.map((msg, index) =>
-                        msg.currentUserId === currentUserId ? (
-                        <div key={index} className="flex justify-end">
-                            <div className="bg-green-600 text-white px-4 py-2 rounded-lg max-w-xs">
-                            {msg.newMessage}
-                            </div>
-                        </div>
-                        ) : (
-                        <div key={index} className="flex justify-start">
-                            <div className="bg-slate-700 text-white px-4 py-2 rounded-lg max-w-xs">
-                            {msg.newMessage}
-                            </div>
-                        </div>
-                        )
-                    )}
-                    </div>
+                    <Chathistory 
+                    message={message}
+                    currentUserId={currentUserId}
+                    />
 
                     {/* Input Row */}
                     <div className="p-4 border-t border-slate-800 flex gap-2">
@@ -135,6 +124,11 @@ const Chat = () => {
                         type="text"
                         value={newMessage}
                         onChange={(e) => setnewMessage(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                handelSendMessage();
+                            }
+                        }}
                         placeholder="Type your message..."
                         className="flex-1 rounded-lg bg-slate-800 text-white px-4 py-2 outline-none focus:ring-2 focus:ring-blue-500"
                     />
