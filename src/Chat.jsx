@@ -14,7 +14,8 @@ const Chat = () => {
     const currentUserId = user?._id;
     const currentUserName = user?.firstName;
     const {targetUserId} = useParams("targetUserId");
-    
+    const [fetchmsgLimit, setFetchmsgLimit] = useState(15);
+    const [chatpage, setChatpage] = useState(1);
     
 
     const [newMessage, setnewMessage] = useState("");
@@ -28,8 +29,8 @@ const Chat = () => {
         socket.emit("sendMessage", {currentUserName, currentUserId, targetUserId, newMessage});
         setnewMessage("");
     }
-    const getSavedChat = async ()=> {
-        const {data} = await axios.get(BASE_URL + "chat/" + targetUserId, {withCredentials: true});
+    const getSavedChat = async (chatpage, fetchmsgLimit)=> {
+        const {data} = await axios.get(BASE_URL + "chat/" + targetUserId + "?page=" + chatpage + "&fetchmsg=" +fetchmsgLimit, {withCredentials: true});
         const {chat, userDetilas} = data;
         setTargetUserDetails(userDetilas);
         console.log(chat);
@@ -58,7 +59,7 @@ const Chat = () => {
         // console.log(getUniqueRoomId());
 
         socket.emit("joinChat", {currentUserName, currentUserId, targetUserId});
-        getSavedChat();
+        getSavedChat(chatpage, fetchmsgLimit);
         socket.on("messageRecieved", ({currentUserId, currentUserName, newMessage})=>{ 
             // message = {currentUserId, newMessage};
             setMessage((prev) => [...prev, {currentUserId, newMessage}]);
